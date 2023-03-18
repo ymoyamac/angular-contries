@@ -1,19 +1,33 @@
-<h2>By Country</h2>
-<div class="row">
-  <div class="col">
-    <app-country-input
-      (onEnter)="searchCountryByName($event)">
-    </app-country-input>
+<div class="animate__animated animate__fadeInUp">
+  <h2>By Country</h2>
+  <div class="row">
+    <div class="col">
+      <app-country-input
+        (onEnter)="searchCountryByName($event)"
+        (onDebounce)="suggestions($event)"
+        placeholder="Search country...">
+      </app-country-input>
+    </div>
+  </div>
+
+  <div class="list-group">
+    <li *ngFor="let country of suggestCountries"
+      class="list-group-item list-group-item-action">
+      <a [routerLink]="['/country', country.cca2]">
+        {{ country.name.common }}
+      </a>
+    </li>
+  </div>
+
+  <div *ngIf="hasError"
+    class="alert alert-danger my-2">
+    Noting was found with term: '{{ searchTerm }}'
+  </div>
+
+  <div *ngIf="countries.length > 0" class="row my-2" >
+    <div class="col">
+      <app-country-table [countries]="countries"></app-country-table>
+    </div>
   </div>
 </div>
 
-<div *ngIf="hasError"
-  class="alert alert-danger my-2">
-  Noting was found with term: '{{ searchTerm }}'
-</div>
-
-<div *ngIf="countries.length > 0" class="row my-2" >
-  <div class="col">
-    <app-country-table [countries]="countries"></app-country-table>
-  </div>
-</div>

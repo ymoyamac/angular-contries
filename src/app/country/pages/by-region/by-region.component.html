@@ -1,1 +1,19 @@
-<p>by-region works!</p>
+<h2>By Region <span>{{ activateRegion | titlecase }}</span></h2>
+
+<p class="fs-4">Select Region</p>
+
+<div class="row">
+  <div class="col">
+    <button *ngFor="let region of regions"
+      [class]="setActiveRegionSelectedClass(region)"
+      (click)="setActivateRegion(region)">
+      {{ region | titlecase }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="countries.length > 0" class="row my-2" >
+  <div class="col">
+    <app-country-table [countries]="countries"></app-country-table>
+  </div>
+</div>

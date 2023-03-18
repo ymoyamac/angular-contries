@@ -1,15 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CountryService } from '../../services/country.service';
 import { Country } from '../../interfaces/country.interface';
 
 @Component({
   selector: 'app-by-country',
   templateUrl: './by-country.component.html',
+  styles: [
+    `
+      li {
+        cursor: pointer
+      }
+    `
+  ]
 })
 export class ByCountryComponent {
+
+  @Input() placeholder: string ='';
   searchTerm: string = '';
   hasError: boolean = false;
   countries: Country[] = [];
+  suggestCountries: Country[] = [];
 
   constructor(private countryService: CountryService) {}
 
@@ -25,6 +35,13 @@ export class ByCountryComponent {
       });
   }
 
-  search
+  suggestions(term: string): void {
+    this.hasError = false;
+    this.countryService.searchCountry(term)
+      .subscribe(countries => {
+        this.suggestCountries = countries.splice(0, 5);
+      }, (error: unknown) => {
+        this.suggestCountries = [];
+      });
+  }
 }
-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
